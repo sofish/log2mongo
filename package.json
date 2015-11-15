@@ -29,6 +29,6 @@
   "homepage": "https://github.com/sofish/log2mongo",
   "dependencies": {
     "log2json": "^1.0.4",
-    "mongoimport": "^1.0.1"
+    "mongoimport": "^1.0.2"
   }
 }
