@@ -1,6 +1,6 @@
 {
   "name": "log2mongo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "automatic log transform and import to mongodb",
   "main": "index.js",
   "preferGlobal": "true",

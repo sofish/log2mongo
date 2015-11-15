@@ -32,7 +32,7 @@ config = _extend(defaults, config);
  *    "dir": "dir/contains/logs",       // where to find logs
  *    "skip": skip(filename)            // {function} [optional] a function return Boolean, when True, file ignored
  *    "separator": "•-•",               // separator of your (nginx/apache/whatever) log fields
- *    "map": [],                        // map with log fields that create by `split(separator)`
+ *    "map": [],                        // {function|array} map log fields; if it's a func, should always array
  *
  *    "username": "sofish",             // [optional] db username
  *    "password": "***"                 // [optional] db password
@@ -51,8 +51,11 @@ fs.readdir(config.dir, (err, files) => {
 
 // process with log2json
 function render(file) {
+  var map = typeof config.map === 'function' ?
+    config.map(file) : config.map;
+
   log2json({
-    map: config.map,
+    map,
     separator: config.separator,
     src: file,
     dist: importor.bind(null, file) // instead of create new file, pass it to importor fn
