@@ -20,7 +20,7 @@ var defaults = {
 };
 
 var config = process.argv[2];
-config = require(path.resolve(__dirname, config));
+config = require(path.resolve(process.cwd(), config));
 config = _extend(defaults, config);
 
 /* Example of config file: should be a node module
