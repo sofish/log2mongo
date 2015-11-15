@@ -1,15 +1,15 @@
 {
   "name": "log2mongo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "automatic log transform and import to mongodb",
-  "main": "./bin/log2mongo.sh",
+  "main": "index.js",
   "preferGlobal": "true",
   "directories": {
     "test": "test",
     "bin": "bin"
   },
   "scripts": {
-    "test": "./bin/log2mongo ./test/config.js"
+    "test": "bin/log2mongo test/config.js"
   },
   "repository": {
     "type": "git",

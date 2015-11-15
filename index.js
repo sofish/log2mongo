@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const fs = require("fs");
 const path = require("path");
@@ -55,16 +55,18 @@ function render(file) {
     map: config.map,
     separator: config.separator,
     src: file,
-    dist: importor // instead of create new file, pass it to importor fn
+    dist: importor.bind(null, file) // instead of create new file, pass it to importor fn
   });
 }
 
 // import to mongodb
-function importor(fields) {
+function importor(file, fields) {
+  var collection = typeof config.collection === 'function' ?
+      config.collection(file) : config.collection;
+
   mongoimport({
-    fields,
+    collection, fields, 
     db: config.db,
-    collection: config.collection,
     host: config.host,
     username: config.username,
     password: config.password,
