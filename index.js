@@ -30,7 +30,7 @@ config = _extend(defaults, config);
  *    "collection": "collection",       // {function|string} collection to insert, or a function returns a string
  *
  *    "dir": "dir/contains/logs",       // where to find logs
- *    "skip": skip(filename)            // {regexp} [optional] a function return Boolean, when True, file ignored
+ *    "skip": skip(filename)            // {function} [optional] a function return Boolean, when True, file ignored
  *    "separator": "•-•",               // separator of your (nginx/apache/whatever) log fields
  *    "map": [],                        // map with log fields that create by `split(separator)`
  *

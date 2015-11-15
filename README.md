@@ -1,36 +1,37 @@
-![build status](https://travis-ci.org/sofish/mongoimport.svg?branch=master)
+![build status](https://travis-ci.org/sofish/log2mongo.svg?branch=master)
 
-# mongoimport
+# log2mongo
 
 import JSON to mongodb, associate with [sofish/log2json](https://github.com/sofish/log2json) to manage nginx logs.
 
 ```php
-$ npm install mongoimport --save
+$ npm install log2mongo -g
 ```
 
 ## Usage
 
-Install the package with npm, and bring it to your project.
+It's a command line tool and should install with the `-g` flag.
 
-```js
-var mi = require('mongoimport');
-mi(config);
+```php
+$ log2mongo config.js
 ```
 
-Follow the codes below to create a config object:
+The `config.js` should be a node module like this:
 
-  ```js
-var config = {
-  fields: [],                     // {array} data to import
-  db: 'name',                     // {string} name of db
-  collection: 'collection'        // {string} name of collection
+```js
+module.exports = {
+  "db": "db-name",
+  "host": "127.0.0.1:27017",
+  "collection": "collection",       // {function|string} collection to insert, or a function returns a string
 
-  // they're options
-  host: 'localhost:27017',        // {string} [optional] by default is 27017
-  username: 'sofish',             // {string} [optional]
-  password: '***'                 // {string} [optional]
-  callback: (err, db) => {}       // {function} [optional]
-};
+  "dir": "dir/contains/logs",       // where to find logs
+  "skip": skip(filename)            // {function} [optional] a function return Boolean, when True, file ignored
+  "separator": "•-•",               // separator of your (nginx/apache/whatever) log fields
+  "map": [],                        // map with log fields that create by `split(separator)`
+
+  "username": "sofish",             // [optional] db username
+  "password": "***"                 // [optional] db password
+}
 ```
 
 ## Test
