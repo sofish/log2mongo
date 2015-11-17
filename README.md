@@ -1,4 +1,6 @@
-![build status](https://travis-ci.org/sofish/log2mongo.svg?branch=master)
+![build status](https://travis-ci.org/sofish/log2mongo.svg?branch=master) 
+
+**注意：**Travis-ci 的执行 path 好奇怪，大家用拉下来执行 \`npm test\` 吧
 
 # log2mongo
 
