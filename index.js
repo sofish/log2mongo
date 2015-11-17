@@ -58,6 +58,7 @@ function render(file) {
     map,
     separator: config.separator,
     src: file,
+    removeSrc: false,
     dist: importor.bind(null, file) // instead of create new file, pass it to importor fn
   });
 }
@@ -73,6 +74,10 @@ function importor(file, fields) {
     host: config.host,
     username: config.username,
     password: config.password,
-    callback: config.callback
+    callback: function(err, ret) {
+      config.callback.apply(config, arguments);
+      // unlink when success
+      if(!err) fs.unlink(file);
+    }
   });
 }
