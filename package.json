@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/sofish/log2mongo",
   "dependencies": {
-    "log2json": "^1.0.5",
+    "log2json": "^1.0.6",
     "mongoimport": "^1.0.3"
   }
 }
