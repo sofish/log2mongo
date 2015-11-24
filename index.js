@@ -76,8 +76,6 @@ function importor(file, fields) {
     password: config.password,
     callback: function(err, ret) {
       config.callback.apply(config, arguments);
-      // unlink when success
-      if(!err) fs.unlink(file);
     }
   });
 }
