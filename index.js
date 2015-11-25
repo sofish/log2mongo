@@ -87,5 +87,5 @@ function importor(file, fields) {
 
 process.on('uncaughtException', function(err) {
   // ignore duplicate key error from 3rd party mongodb module
-  if(err.message.match(/E11000 duplicate key error index: perf\.(analy|perf)\./)) return;
+  if(err.message.match(/E11000 duplicate key error index: perf\.(analy|perf)\./)) return console.log('LOL');
 });

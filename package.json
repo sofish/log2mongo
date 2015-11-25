@@ -1,6 +1,6 @@
 {
   "name": "log2mongo",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "automatic log transform and import to mongodb",
   "main": "index.js",
   "preferGlobal": "true",
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/sofish/log2mongo",
   "dependencies": {
-    "log2json": "^1.0.8",
+    "log2json": "^1.1.0",
     "mongoimport": "^1.0.3"
   }
 }
