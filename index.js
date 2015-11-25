@@ -6,7 +6,9 @@ const _extend = require('util')._extend;
 const log2json = require('log2json');
 const mongoimport = require('mongoimport');
 
-var defaults = {
+var config = process.argv[2];
+config = require(path.resolve(process.cwd(), config));
+config = _extend({
   host: '127.0.0.1:27017',
   db: 'log2mongo',
   collection: 'test',
@@ -17,11 +19,7 @@ var defaults = {
     console.log(ret);
   },
   skip: filename => /^\./.test(filename)
-};
-
-var config = process.argv[2];
-config = require(path.resolve(process.cwd(), config));
-config = _extend(defaults, config);
+}, config);
 
 /* Example of config file: should be a node module
  *  module.exports = {
@@ -44,22 +42,29 @@ fs.readdir(config.dir, (err, files) => {
   if(err) throw err;
 
   files.forEach(file => {
-    if(config.skip(file)) return config.callback(null);
-    render(path.resolve(process.cwd(), config.dir, file));
+    if(config.skip(file) || /^__inUse__/.test(file)) return config.callback(null);
+
+    let oldPath = path.resolve(process.cwd(), config.dir, file);
+    let inUseFile = '__inUse__' + file;
+    let newPath = path.resolve(process.cwd(), config.dir, inUseFile);
+
+    fs.renameSync(oldPath, newPath);
+    render(newPath);
   });
 });
 
 // process with log2json
 function render(file) {
-  var map = typeof config.map === 'function' ?
-    config.map(file) : config.map;
+  var map = typeof config.map === 'function' ? config.map(file) : config.map;
 
   log2json({
     map,
     separator: config.separator,
     src: file,
     removeSrc: false,
-    dist: importor.bind(null, file) // instead of create new file, pass it to importor fn
+
+    // instead of create new file, pass it to importor fn
+    dist: importor.bind(null, file)
   });
 }
 
@@ -69,7 +74,7 @@ function importor(file, fields) {
       config.collection(file) : config.collection;
 
   mongoimport({
-    collection, fields, 
+    collection, fields,
     db: config.db,
     host: config.host,
     username: config.username,
