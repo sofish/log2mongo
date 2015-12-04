@@ -1,8 +1,8 @@
 module.exports = {
   db: 'log2mongo',
   host: '127.0.0.1:27017',
-  collection: function(fields) {
-    var field = fields[0];
+  collection: function(field) {
+    if(!field.query) return 'server';
     if(field.query.error) return 'error';
     if(field.query.perf) return 'perf';
     if(field.query.route) return 'route';
