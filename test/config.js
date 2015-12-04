@@ -1,7 +1,13 @@
 module.exports = {
   db: 'log2mongo',
   host: '127.0.0.1:27017',
-  collection: 'test',
+  collection: function(fields) {
+    var field = fields[0];
+    if(field.query.error) return 'error';
+    if(field.query.perf) return 'perf';
+    if(field.query.route) return 'route';
+    return 'analy';
+  },
   dir: './test',
   skip: function (filename) {
     return filename !== 'log';

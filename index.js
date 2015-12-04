@@ -45,7 +45,7 @@ fs.readdir(config.dir, (err, files) => {
     if(config.skip(file) || /^__inUse__/.test(file)) return config.callback(null);
 
     let oldPath = path.resolve(process.cwd(), config.dir, file);
-    let inUseFile = '__inUse__' + file;
+    let inUseFile = file;
     let newPath = path.resolve(process.cwd(), config.dir, inUseFile);
 
     fs.renameSync(oldPath, newPath);
@@ -56,7 +56,6 @@ fs.readdir(config.dir, (err, files) => {
 // process with log2json
 function render(file) {
   var map = typeof config.map === 'function' ? config.map(file) : config.map;
-
   log2json({
     map,
     separator: config.separator,
@@ -64,17 +63,16 @@ function render(file) {
     removeSrc: false,
 
     // instead of create new file, pass it to importor fn
-    dist: importor.bind(null, file)
+    dist: importor
   });
 }
 
 // import to mongodb
-function importor(file, fields) {
-  var collection = typeof config.collection === 'function' ?
-      config.collection(file) : config.collection;
+function importor(fields) {
 
   mongoimport({
-    collection, fields,
+    collection: config.collection,
+    fields,
     db: config.db,
     host: config.host,
     username: config.username,
@@ -86,6 +84,7 @@ function importor(file, fields) {
 }
 
 process.on('uncaughtException', function(err) {
+  console.log(err);
   // ignore duplicate key error from 3rd party mongodb module
   if(err.message.match(/E11000 duplicate key error index: perf\.(analy|perf)\./)) return console.log('LOL');
 });
